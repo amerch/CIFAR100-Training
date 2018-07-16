@@ -190,7 +190,7 @@ class DenseNetEfficientMulti(Module):
     """
     def __init__(self, growth_rate=12, block_config=(16, 16, 16), compression=0.5,
                  num_init_features=24, bn_size=4, drop_rate=0., avgpool_size=8,
-                 num_classes=10):
+                 num_classes=100):
 
         super(DenseNetEfficientMulti, self).__init__()
         assert 0 < compression <= 1, 'compression of densenet should be between '
@@ -233,7 +233,7 @@ class DenseNetEfficientMulti(Module):
         return out
 
 def DenseNet190():
-    return DenseNetEfficientMulti(growth_rate=40, block_config=(31, 31, 31), num_classes=10)
+    return DenseNetEfficientMulti(growth_rate=40, block_config=(31, 31, 31), num_classes=100)
 
 # Begin gross code :/
 # Here's where we define the internals of the efficient bottleneck layer

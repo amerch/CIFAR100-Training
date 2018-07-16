@@ -11,7 +11,7 @@ class AllDNet(nn.Module):
         # self.conv2 = nn.Linear(6*14*14, 16*10*10)
         self.fc1   = nn.Linear(16*5*5, 120)
         self.fc2   = nn.Linear(120, 84)
-        self.fc3   = nn.Linear(84, 10)
+        self.fc3   = nn.Linear(84, 100)
 
     def forward(self, x):
         activations = []

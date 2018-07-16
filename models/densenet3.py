@@ -118,4 +118,4 @@ class DenseNet3(nn.Module):
         return self.fc(out)
 
 def DenseNet190():
-    return DenseNet3(190, 10, growth_rate=40)
+    return DenseNet3(190, 100, growth_rate=40)

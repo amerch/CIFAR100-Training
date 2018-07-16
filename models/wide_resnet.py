@@ -83,13 +83,13 @@ class Wide_ResNet(nn.Module):
         return out
 
 if __name__ == '__main__':
-    net=Wide_ResNet(28, 10, 0.3, 10)
+    net=Wide_ResNet(28, 10, 0.3, 100)
     y = net(Variable(torch.randn(1,3,32,32)))
 
     print(y.size())
 
 def WideResNet_28_10():
-    return Wide_ResNet(28, 10, 0.3, 10)
+    return Wide_ResNet(28, 10, 0.3, 100)
 
 def WideResNet_40_2():
-    return Wide_ResNet(40, 2, 0.3, 10)
+    return Wide_ResNet(40, 2, 0.3, 100)

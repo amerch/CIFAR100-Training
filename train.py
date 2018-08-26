@@ -64,6 +64,7 @@ if args.augment:
     ])
 else:
     transform_train = transforms.Compose([
+        transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Normalize((0.5071, 0.4867, 0.4408),
                              (0.2675, 0.2565, 0.2761)),

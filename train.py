@@ -97,6 +97,10 @@ def get_checkpoint_name():
     checkpoint += '.t7' + args.name + '_' + str(args.seed)
     return checkpoint
 
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9,
+                      weight_decay=args.decay)
+
 # Model
 if args.resume:
     # Load checkpoint.
@@ -104,6 +108,8 @@ if args.resume:
     assert os.path.isdir('checkpoint'), 'Error: no checkpoint directory found!'
     checkpoint = torch.load(get_checkpoint_name())
     net = checkpoint['net']
+    if 'optimizer' in checkpoint:
+        optimizer.load_state_dict(checkpoint['optimizer'])
     best_acc = checkpoint['acc']
     start_epoch = checkpoint['epoch'] + 1
     rng_state = checkpoint['rng_state']
@@ -123,10 +129,6 @@ if use_cuda:
     print(torch.cuda.device_count())
     cudnn.benchmark = True
     print('Using CUDA..')
-
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9,
-                      weight_decay=args.decay)
 
 
 def mixup_data(x, y, alpha=1.0, use_cuda=True):
@@ -286,7 +288,8 @@ def checkpoint(acc, epoch):
         'net': net,
         'acc': acc,
         'epoch': epoch,
-        'rng_state': torch.get_rng_state()
+        'rng_state': torch.get_rng_state(),
+        'optimizer': optimizer:state_dict()
     }
     if not os.path.isdir('checkpoint'):
         os.mkdir('checkpoint')

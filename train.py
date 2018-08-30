@@ -98,8 +98,6 @@ def get_checkpoint_name():
     return checkpoint
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9,
-                      weight_decay=args.decay)
 
 # Model
 if args.resume:
@@ -108,6 +106,8 @@ if args.resume:
     assert os.path.isdir('checkpoint'), 'Error: no checkpoint directory found!'
     checkpoint = torch.load(get_checkpoint_name())
     net = checkpoint['net']
+    optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9,
+                      weight_decay=args.decay)
     if 'optimizer' in checkpoint:
         optimizer.load_state_dict(checkpoint['optimizer'])
     best_acc = checkpoint['acc']
@@ -117,6 +117,9 @@ if args.resume:
 else:
     print('==> Building model..')
     net = models.__dict__[args.model]()
+    optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9,
+                      weight_decay=args.decay)
+
 
 if not os.path.isdir('results'):
     os.mkdir('results')

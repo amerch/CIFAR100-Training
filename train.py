@@ -289,7 +289,7 @@ def checkpoint(acc, epoch):
         'acc': acc,
         'epoch': epoch,
         'rng_state': torch.get_rng_state(),
-        'optimizer': optimizer:state_dict()
+        'optimizer': optimizer.state_dict()
     }
     if not os.path.isdir('checkpoint'):
         os.mkdir('checkpoint')

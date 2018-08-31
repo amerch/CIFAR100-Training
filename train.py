@@ -42,7 +42,7 @@ parser.add_argument('--mixup', '-m', action='store_true',
                     help='to perform mixup')
 parser.add_argument('--adversarial', '-a', action='store_true',
                     help='to perform adversarial')
-parser.add_argument('--horizontal', '-z', dest='horitonztal', action='store_true', default=False,
+parser.add_argument('--horizontal', '-z', dest='horizontal', action='store_true', default=False,
                     help='to perform horizontal augmentation')
 parser.add_argument('--vertical', '-v', dest='vertical', action='store_true', default=False,
                     help='to perform vertical augmentation')

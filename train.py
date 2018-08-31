@@ -105,9 +105,9 @@ def get_checkpoint_name():
         checkpoint += '_adv'
     if args.mixup:
         checkpoint += '_mix'
-    if args.horizontal
+    if args.horizontal:
         checkpoint += '_h'
-    if args.vertical
+    if args.vertical:
         checkpoint += '_v'
     checkpoint += '.t7' + args.name + '_' + str(args.seed)
     return checkpoint

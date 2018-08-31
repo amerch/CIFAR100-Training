@@ -178,7 +178,7 @@ def fgsm(model, criterion, x, y, epsilon=0.1):
         return x.cuda(), y
     return x, y
 
-def pgd(model, criterion, x_start, y, epsilon=0.02, k=4, a=0.005, random_start=True):
+def pgd(model, criterion, x_start, y, epsilon=0.01, k=4, a=0.0025, random_start=True):
     if random_start:
         noise = torch.from_numpy(np.random.uniform(-epsilon, epsilon, x_start.shape))
         if use_cuda:
@@ -199,8 +199,6 @@ def pgd(model, criterion, x_start, y, epsilon=0.02, k=4, a=0.005, random_start=T
         x = x +  a * torch.sign(grad)
         x = torch.max(x, x_start - epsilon)
         x = torch.min(x, x_start + epsilon)
-        x = torch.clamp(x, 0, 1)
-
     return x, y
 
 def adversarial_data(model, criterion, x, y):

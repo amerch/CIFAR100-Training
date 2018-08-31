@@ -42,6 +42,10 @@ parser.add_argument('--mixup', '-m', action='store_true',
                     help='to perform mixup')
 parser.add_argument('--adversarial', '-a', action='store_true',
                     help='to perform adversarial')
+parser.add_argument('--horizontal', '-h', dest='horitonztal', action='store_true', default=False,
+                    help='to perform horizontal augmentation')
+parser.add_argument('--vertical', '-v', dest='vertical', action='store_true', default=False,
+                    help='to perform vertical augmentation')
 args = parser.parse_args()
 
 use_cuda = torch.cuda.is_available()
@@ -62,19 +66,27 @@ if args.augment:
         transforms.Normalize((0.5071, 0.4867, 0.4408),
                              (0.2675, 0.2565, 0.2761)),
     ])
-else:
+elif args.horizontal:
     transform_train = transforms.Compose([
+        transforms.RandomCrop(32, padding=[4,0]),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Normalize((0.5071, 0.4867, 0.4408),
                              (0.2675, 0.2565, 0.2761)),
     ])
-
-
-transform_test = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
-])
+elif args.vertical:
+    transform_train = transforms.Compose([
+        transforms.RandomCrop(32, padding=[0,4]),
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5071, 0.4867, 0.4408),
+                             (0.2675, 0.2565, 0.2761)),
+    ])
+else:
+    transform_test = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
+    ])
 
 trainset = datasets.CIFAR100(root='~/data', train=True, download=True,
                             transform=transform_train)
@@ -93,6 +105,10 @@ def get_checkpoint_name():
         checkpoint += '_adv'
     if args.mixup:
         checkpoint += '_mix'
+    if args.horizontal
+        checkpoint += '_h'
+    if args.vertical
+        checkpoint += '_v'
     checkpoint += '.t7' + args.name + '_' + str(args.seed)
     return checkpoint
 
